@@ -19,7 +19,7 @@ pkgdesc='A full-featured, open source, state-of-the-art video surveillance softw
 arch=('any')
 url='https://www.zoneminder.com/'
 license=('GPL-2.0-only')
-depends=('polkit' 'ffmpeg'
+depends=('polkit' 'ffmpeg4.4'
          'php-apcu' 'php-fpm' 'php-gd' 'php-intl'
          'perl-archive-zip' 'perl-data-dump' 'perl-date-manip' 'perl-datetime' 'perl-dbd-mysql' 'perl-device-serialport' 'perl-file-slurp'
          'perl-image-info' 'perl-libwww' 'perl-mime-lite' 'perl-mime-tools' 'perl-net-sftp-foreign' 'perl-number-bytes-human' 'perl-php-serialization'
@@ -70,6 +70,9 @@ sha256sums=('cd0f44c7238bcfd10579d665b271f6af81b61f5cbd8cbbc2ff5d7839232e267e'
 
 prepare () {
     cd ${pkgname}-${pkgver}
+
+    #Use ffmpeg4.4 headers and libs
+    patch < ${srcdir}/../change_to_ffmpeg4.4.patch
 
     # Fix the launcher
     sed -i 's|localhost/zm|localhost:8095|g' misc/${pkgname}.desktop.in
